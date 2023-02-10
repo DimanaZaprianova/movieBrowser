@@ -1,24 +1,15 @@
 
-import {useState, useEffect, useRef} from 'react';
+import {useEffect} from 'react';
 import { useNavigate, Link} from "react-router-dom";
 
+
+
 const Navbar = ({searchText, setSearchText}) => {
-    const [bufferText, setBufferText] = useState("");
+
     const navigate = useNavigate ();
-    
     const updateSearchText = (e) => {
       // navigate('/search');
-      setBufferText(e.currentTarget.value);
-    };
-    
-    const inputElement = useRef();
-
-    const realUpdateSearchText =(e) => {
-      navigate('/search');
-      setSearchText(bufferText);
-      setBufferText("");
-      e.currentTarget.focus = true;
-      inputElement.current.focus();
+      setSearchText(e.currentTarget.value);
     };
 
     useEffect(() => {
@@ -27,9 +18,9 @@ const Navbar = ({searchText, setSearchText}) => {
   
         if (event.key === 'Enter') {
           event.preventDefault();
+  
+          // 👇️ your logic here
           navigate('/search');
-          setSearchText(bufferText);
-          setBufferText("");
         }
       };
   
@@ -38,8 +29,8 @@ const Navbar = ({searchText, setSearchText}) => {
       return () => {
         document.removeEventListener('keydown', keyDownHandler);
       };
-    }, [navigate, bufferText, setSearchText]);
-  
+    }, [navigate]);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -82,17 +73,17 @@ const Navbar = ({searchText, setSearchText}) => {
           </ul>
           <form className="d-flex" role="search">
             <input
-              autoFocus = 'true'
+              autoFocus
               className="form-control me-2 Inputtxt"
               type="search"
               placeholder="Search"
               aria-label="Search"
-              value={bufferText}
-              onChange = {updateSearchText}
-              ref={inputElement}          
+              value={searchText}
+              onChange={updateSearchText}
+              
             />
-            <button type="button" onClick = {realUpdateSearchText}  className="btn btn-outline-success" >
-              Results
+            <button type="button" onClick = {(e)=>navigate('/search')}  className="btn btn-outline-success" >
+              Search 
             </button>
           </form>
         </div>

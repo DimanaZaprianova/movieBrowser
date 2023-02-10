@@ -33,7 +33,7 @@ function App() {
           );
     }
   }, [searchText, navigate]);
-  
+  console.log(searchResults, " is the search results");
   return (
     <div>
       <Navbar searchText={searchText} setSearchText={setSearchText} />
